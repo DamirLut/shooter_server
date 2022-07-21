@@ -34,6 +34,7 @@ public:
     // Other useful methods
     [[nodiscard]] double sqrAbs() const; // Returns squared vector length
     [[nodiscard]] double abs() const; // Returns vector length
+    [[nodiscard]] double angle(const Vec3D& vec) const;
 };
 
 

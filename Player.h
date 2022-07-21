@@ -10,6 +10,8 @@
 #include "ShooterConsts.h"
 #include "engine/physics/RigidBody.h"
 #include "ShooterConsts.h"
+#include "engine/utils/Log.h"
+#include <iostream>
 
 class Player final : public RigidBody{
 private:
@@ -49,7 +51,12 @@ public:
     [[nodiscard]] double headAngle() const { return _headAngle; };
 
     [[nodiscard]] std::string playerNickName() const { return _nickName; }
-    void setPlayerNickName(const std::string& name) { _nickName = name; }
+    void setPlayerNickName(const std::string& name) {
+        if (_nickName != name) {
+            //std::cout << _nickName + " changed nick to " + name << std::endl;
+        }
+        _nickName = name;
+    }
 };
 
 

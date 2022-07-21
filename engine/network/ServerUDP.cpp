@@ -98,6 +98,7 @@ bool ServerUDP::process() {
         case MsgType::Connect:
             Log::log("ServerUDP::process(): client Id = " + std::to_string(senderId) + " connecting...");
 
+
             processConnect(senderId);
             break;
         case MsgType::ClientUpdate:

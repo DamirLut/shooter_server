@@ -21,6 +21,19 @@ void ShooterServer::broadcast() {
     }
 }
 
+std::shared_ptr<Player> ShooterServer::addBot(std::string nickname) {
+
+    sf::Uint16 targetId = -1;
+
+    auto bot = std::make_shared<Player>(ObjectNameTag("Player_" + std::to_string(targetId)));
+    
+    bot->setPlayerNickName(nickname);
+
+    _players.insert({ targetId,bot });
+
+    return bot;
+}
+
 
 void ShooterServer::processConnect(sf::Uint16 targetId) {
     sf::Packet sendPacket1, sendPacket2;

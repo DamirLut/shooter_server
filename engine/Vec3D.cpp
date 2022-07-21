@@ -48,3 +48,7 @@ Vec3D Vec3D::cross(const Vec3D& vec) const {
                  z() * vec.x() - vec.z() * x(),
                  x() * vec.y() - vec.x() * y()};
 }
+
+double Vec3D::angle(const Vec3D& vec) const {
+    return acos( dot(vec) / (abs() * vec.abs()) );
+}

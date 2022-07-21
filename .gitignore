@@ -4,3 +4,9 @@
 /Debug/
 /Release/
 /x64/
+/.vs/
+/out/
+CMakeSettings.json
+shooter_server.ilk
+shooter_server.pdb
+*.exe

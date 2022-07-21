@@ -39,10 +39,10 @@ add_executable(shooter_server
         engine/network/UDPSocket.h
         )
 
-if(APPLE OR UNIX)
-    include_directories(/usr/local/include)
+if(UNIX)
+    set( SFML_DIR "/root/sdk/SFML-2.5.1/lib/cmake/SFML")
 else()
-    set(SFML_DIR "C:/Libraries/SFML/lib/cmake/SFML")
+    set(SFML_DIR "C:/SDK/SFML-2.5.1/lib/cmake/SFML")
     set(SFML_STATIC_LIBRARIES TRUE)
 endif()
 

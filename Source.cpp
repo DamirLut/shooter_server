@@ -46,8 +46,15 @@ int main() {
     InitServer(server);
 
     std::cout << "Server started!" << std::endl;
+  
+    auto bot = server.addBot();
+    
+    //bot->translate(Vec3D(-1000, -1000, -1000));
+    
 
     double lastTryReconnecting = 0;
+    long aliveTime = 0;
+    long tick = 0;
 
     while (true) {
         if(!server.isWorking() && (Time::time() - lastTryReconnecting > Consts::NETWORK_TIMEOUT)) {
@@ -58,6 +65,17 @@ int main() {
         }
         Time::update();
         server.update();
+
+        bot->setPlayerNickName("Server alive: "+std::to_string(aliveTime / 1000 / 60 / 60) + " hours");
+        bot->setKills(-1);
+        bot->setHealth(-1);
+        bot->rotateToAngle( Vec3D{0,(double)tick/100,0});
+
+        bot->setDeaths(0);
+        
+
+        aliveTime += 10;
+        tick++;
 
         sleep_for(10ms);
     }

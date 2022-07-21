@@ -16,9 +16,9 @@ struct BonusInfo final {
 
 class ShooterServer final : public ServerUDP {
 private:
-    std::map<sf::Uint16, std::shared_ptr<Player>> _players{};
     std::map<std::string, std::shared_ptr<BonusInfo>> _bonuses{};
 public:
+    std::map<sf::Uint16, std::shared_ptr<Player>> _players{};
     ShooterServer() = default;
 
     void broadcast() override;
@@ -34,6 +34,8 @@ public:
     void generateBonuses();
 
     void updateInfo() override;
+
+    std::shared_ptr<Player> addBot(std::string nickname = "Bot");
 
     ~ShooterServer() override;
 };
