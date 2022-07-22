@@ -24,6 +24,8 @@ enum class MsgType
 
     // custom
     Custom,
+    Ping,
+    Pong
 };
 
 sf::Packet& operator<<(sf::Packet& packet, MsgType type);

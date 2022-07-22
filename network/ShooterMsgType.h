@@ -14,7 +14,9 @@ enum class ShooterMsgType {
     InitBonuses,
     AddBonus,
     RemoveBonus,
-    ChangeWeapon
+    ChangeWeapon,
+    Ping,
+    Pong
 };
 
 sf::Packet& operator<<(sf::Packet& packet, ShooterMsgType type);

@@ -13,7 +13,7 @@ void ShooterServer::broadcast() {
     updatePacket << MsgType::ServerUpdate;
 
     for (auto& [playerId, player] : _players) {
-        updatePacket << playerId << player->position().x() << player->position().y() << player->position().z() << player->health() << player->angle().y() << player->headAngle() << player->playerNickName();
+        updatePacket << playerId << player->position().x() << player->position().y() << player->position().z() << player->health() << player->angle().y() << player->headAngle() << player->playerNickName() << player->ping;
     }
 
     for (auto& player : _players) {
@@ -38,6 +38,7 @@ std::shared_ptr<Player> ShooterServer::addBot(std::string nickname) {
 void ShooterServer::processConnect(sf::Uint16 targetId) {
     sf::Packet sendPacket1, sendPacket2;
     sf::Packet extraPacket;
+    sf::Packet pongPacket;
 
     // players init
     extraPacket << MsgType::NewClient << targetId;
@@ -59,17 +60,22 @@ void ShooterServer::processConnect(sf::Uint16 targetId) {
     }
     _socket.sendRely(sendPacket2, targetId);
 
+    pongPacket << MsgType::Custom << ShooterMsgType::Pong;
+    _socket.sendRely(pongPacket, targetId);
+
 }
 
 void ShooterServer::processClientUpdate(sf::Uint16 senderId, sf::Packet& packet) {
-    double buf[5];
+    double buf[6];
     std::string playerName;
+    int ping;
 
-    packet >> buf[0] >> buf[1] >> buf[2] >> buf[3] >> buf[4] >> playerName;
+    packet >> buf[0] >> buf[1] >> buf[2] >> buf[3] >> buf[4] >> playerName >> ping;
     _players.at(senderId)->translateToPoint(Vec3D{ buf[0], buf[1], buf[2] });
     _players.at(senderId)->rotateToAngle(Vec3D{0, buf[3], 0});
     _players.at(senderId)->setHeadAngle(buf[4]);
     _players.at(senderId)->setPlayerNickName(playerName);
+    _players.at(senderId)->ping = ping;
 }
 
 void ShooterServer::processDisconnect(sf::Uint16 senderId) {
@@ -95,6 +101,12 @@ void ShooterServer::processCustomPacket(sf::Packet& packet, sf::Uint16 senderId)
     packet >> type;
 
     switch (type) {
+        case ShooterMsgType::Ping: 
+
+            sendPacket << MsgType::Custom << ShooterMsgType::Pong;
+            _socket.sendRely(sendPacket, senderId);
+
+            break;
         case ShooterMsgType::Damage:
             packet >> targetId >> damage;
             newHealth = _players[targetId]->health() - damage;

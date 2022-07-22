@@ -49,7 +49,7 @@ int main() {
   
     auto bot = server.addBot();
     
-    //bot->translate(Vec3D(-1000, -1000, -1000));
+    bot->translate(Vec3D(-1000, -1000, -1000));
     
 
     double lastTryReconnecting = 0;
@@ -78,6 +78,20 @@ int main() {
         tick++;
 
         sleep_for(10ms);
+
+        std::cout << "\x1B[2J\x1B[H";
+        string output = "";
+        for (auto& [playerId, player] : server._players) {
+            
+            output += std::to_string(playerId) + ") ";
+            output += player->playerNickName() + "\t";
+            output += std::to_string( player->kills()) + ":" + std::to_string( player->deaths() ) + "\t";
+            output += "Ping: "+std::to_string(player->ping);
+            output += "\n";
+            
+        }
+        std::cout << output;
+
     }
 
     return 0;

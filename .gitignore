@@ -10,3 +10,4 @@ CMakeSettings.json
 shooter_server.ilk
 shooter_server.pdb
 *.exe
+engine_log.txt

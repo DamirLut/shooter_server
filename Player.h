@@ -27,6 +27,8 @@ private:
 public:
     explicit Player(ObjectNameTag nameTag) : RigidBody(std::move(nameTag)) {}
 
+    int ping;
+
     void setHealth(double h) { _health = h; }
     void setAbility(double a) { _ability = a; }
 
